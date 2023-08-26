@@ -5,31 +5,38 @@ document.getElementById('calculator').addEventListener('submit', function(e){
 
 function datos() {
     var montoinicial = parseFloat(document.getElementById("monto_credito").value);
-    var plazo = parseInt(document.getElementById("plazo_pago").value);
+    var plazo_anios = parseInt(document.getElementById("plazo_pago").value);
+    var periodo_pago = parseInt(document.getElementById("periodo_pago").value);
     var tipo_credito = document.getElementById("tipo_credito").value;
     var fecha_inicio = new Date(document.getElementById("fecha_desembolso").value);
-
-    var por_interes = calcularInteres(tipo_credito) / 100; // Suponiendo que está en porcentaje
+    
+    var pagos_por_anio = {
+        1: 12,  // Mensual
+        2: 4,   // Trimestral
+        3: 2,   // Semestral
+        4: 1,   // Anual
+        5: 1    // Unico, al vencimiento
+    };
+    
+    var plazo = plazo_anios * pagos_por_anio[periodo_pago];
+    var por_interes = calcularInteres(tipo_credito) / 100;
 
     var saldo_capital = montoinicial;
-    var total_por_pagar = montoinicial; // Inicializamos con el monto inicial
     var miData = [];
 
-    // Cuota fija
-    var cuotaFija = montoinicial * (por_interes / 12) / (1 - Math.pow(1 + (por_interes / 12), -plazo));
+    var cuotaFija = montoinicial * por_interes / pagos_por_anio[periodo_pago] / (1 - Math.pow(1 + por_interes / pagos_por_anio[periodo_pago], -plazo));
 
     for (let i = 1; i <= plazo; i++) {
-        let intereses = saldo_capital * (por_interes / 12); // Suponiendo interés anual y pagos mensuales
-        let capital = cuotaFija - intereses; 
+        let intereses = saldo_capital * por_interes / pagos_por_anio[periodo_pago];
+        let capital = cuotaFija - intereses;
 
-        // Registramos los datos
         let fecha_pago = new Date(fecha_inicio);
-        fecha_pago.setMonth(fecha_pago.getMonth() + i);
+        fecha_pago.setMonth(fecha_pago.getMonth() + i * (12 / pagos_por_anio[periodo_pago]));
         let fecha_str = `${fecha_pago.getFullYear()}-${fecha_pago.getMonth()+1}-${fecha_pago.getDate()}`;
 
         miData.push({
             "numero_cuota": i.toString(),
-            "saldo_capital": saldo_capital.toFixed(2), // Aquí no restamos el capital todavía
+            "saldo_capital": saldo_capital.toFixed(2),
             "capital": capital.toFixed(2),
             "intereses": intereses.toFixed(2),
             "monto_pago": cuotaFija.toFixed(2),
@@ -37,11 +44,11 @@ function datos() {
             "total": (saldo_capital - capital).toFixed(2),
         });
 
-        // Ahora sí, restamos el pago del capital al saldo y al total por pagar
+        // Actualizamos el saldo del capital
         saldo_capital -= capital;
     }
 
-    // Aquí puedes añadir el código para actualizar tu DataTable
+    // Actualizamos el DataTable con la nueva data
     makeTable(miData);
 }
 
@@ -68,10 +75,21 @@ function calcularInteres(tipo_credito) {
 
 
 function makeTable(miData){
+
+    document.getElementById("credit_icon").style.display = "none";
+    document.getElementById("table_responsive").style.display = "block";
+
+
+    // Si la tabla ya está inicializada, la destruimos primero
+    if ($.fn.DataTable.isDataTable('#cuotas')) {
+        $('#cuotas').DataTable().destroy();
+    }
+
+
     var table = $('#cuotas').DataTable({
         processing: true,
-        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        pageLength: 12,
+        lengthMenu: [[-1], ["All"]],
+        pageLength: -1, 
         order: [[0, 'asc']],
         initComplete: function() {
             console.log("Ok");
