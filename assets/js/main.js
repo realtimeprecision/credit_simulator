@@ -3,6 +3,15 @@ document.getElementById('calculator').addEventListener('submit', function(e){
     datos();
 })
 
+// ASIGNO LA FECHA DE HOY AL INPUT fecha_desembolso AUTOMATICAMENTE
+const hoy = new Date();
+const dia = String(hoy.getDate()).padStart(2, '0');
+const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+const anio = hoy.getFullYear();
+const fechaHoy = `${anio}-${mes}-${dia}`;
+document.getElementById('fecha_desembolso').value = fechaHoy;
+
+//LOGICA DATOS
 function datos() {
     var montoinicial = parseFloat(document.getElementById("monto_credito").value);
     var plazo_anios = parseInt(document.getElementById("plazo_pago").value);
@@ -53,11 +62,6 @@ function datos() {
 }
 
 
-
-
-
-
-
 function calcularInteres(tipo_credito) {
     let por_interes = 0;
     if (["1", "2", "3", "8", "11"].includes(tipo_credito)) {
@@ -89,7 +93,8 @@ function makeTable(miData){
     var table = $('#cuotas').DataTable({
         processing: true,
         lengthMenu: [[-1], ["All"]],
-        pageLength: -1, 
+        pageLength: -1,
+        searching: false, paging: false, info: false, lengthChange: false,
         order: [[0, 'asc']],
         initComplete: function() {
             console.log("Ok");
@@ -99,30 +104,51 @@ function makeTable(miData){
             {
                 data: 'numero_cuota',
                 visible: true,
+                orderable: false,
+                searchable: false,
+                sortable: false,
             },
             {
                 data: 'saldo_capital',
                 visible: true,
+                orderable: false,
+                searchable: false,
+                sortable: false,
             },
             {
                 data: 'capital',
                 visible: true,
+                orderable: false,
+                searchable: false,
+                sortable: false,
             },
             {
                 data: 'intereses',
                 visible: true,
+                orderable: false,
+                searchable: false,
+                sortable: false,
             },
             {
                 data: 'monto_pago',
                 visible: true,
+                orderable: false,
+                searchable: false,
+                sortable: false,
             },
             {
                 data: 'fecha_pago',
                 visible: true,
+                orderable: false,
+                searchable: false,
+                sortable: false,
             },
             {
                 data: 'total',
                 visible: true,
+                orderable: false,
+                searchable: false,
+                sortable: false,
             },
         ]
     });

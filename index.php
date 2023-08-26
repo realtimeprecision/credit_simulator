@@ -54,13 +54,13 @@
                   <label for="fecha" class="form-label">Fecha de desembolso</label>
                   <input type="date" class="form-control" id="fecha_desembolso" required>
                   <div class="invalid-feedback">
-                    Disbursement date
+                    Fecha de desembolso
                   </div>
                 </div>
 
                 <div class="col-sm-12">
-                  <label for="monto_credito" class="form-label">Monto del credito</label>
-                  <input type="number" class="form-control" id="monto_credito" placeholder="1.000.000" required value="1000000">
+                  <label for="monto_credito" class="form-label">Monto del crédito</label>
+                  <input type="number" class="form-control" id="monto_credito" placeholder="1.000.000" required>
                   <div class="invalid-feedback">
                     Monto del crédito
                   </div>
@@ -70,13 +70,13 @@
                   <label for="plazo" class="form-label">Plazo de pago</label>
                   <select name="plazo" id="plazo_pago" class="form-control" required>
                     <option value="">Seleccione</option>
-                    <option value="1" selected>1 año</option>
+                    <option value="1">1 año</option>
                     <option value=2>2 años</option>
                     <option value=3>3 años</option>
                     <option value=4>4 años</option>
                   </select>
                   <div class="invalid-feedback">
-                    Monto del crédito
+                    Plazo de pago
                   </div>
                 </div>
 
@@ -84,23 +84,23 @@
                   <label for="periodo" class="form-label">Periodo de pago</label>
                   <select name="periodo" id="periodo_pago" class="form-control" required>
                     <option value="">Seleccione</option>
-                    <option value="1" selected>Mensual</option>
+                    <option value="1">Mensual</option>
                     <option value=2>Trimestral</option>
                     <option value=3>Semestral</option>
                     <option value=4>Anual</option>
                     <option value=5>Unico, al vencimineto</option>
                   </select>
                   <div class="invalid-feedback">
-                    Plazo
+                    Periodo de pago
                   </div>
                 </div>
 
 
                 <div class="col-sm-12">
-                  <label for="tipo_credito" class="form-label">Tipos de credito</label>
+                  <label for="tipo_credito" class="form-label">Tipos de crédito</label>
                   <select name="tipo_credito" id="tipo_credito" class="form-control" required>
                     <option value="">Seleccione</option>
-                    <option value="1" selected> libre inversión</option>
+                    <option value="1">libre inversión</option>
                     <option value=2>Refinanciación</option>
                     <option value=3>Consumo</option>
                     <option value=4>Educación</option>
@@ -113,13 +113,12 @@
                     <option value=11>Anticipo de primas </option>
                   </select>
                   <div class="invalid-feedback">
-                    Plazo
+                    Tipos de crédito
                   </div>
                 </div>
               </div>
 
               <hr class="my-4">
-
               <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="terminos" required>
                 <label class="form-check-label" for="terminos">Acepto los términos y condiciones</label>
@@ -138,7 +137,7 @@
               <table id="cuotas" class="table table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th> Nº Cuota</th>
+                    <th>Nº Cuota</th>
                     <th>Sdo.Capital</th>
                     <th>Capital</th>
                     <th>Interes</th>
